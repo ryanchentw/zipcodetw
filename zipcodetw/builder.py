@@ -3,9 +3,11 @@
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import io
 import sys
 from . import _chp_csv_path, _db_path
 from .util import Directory
+
 
 def build(chp_csv_path=None, db_path=None):
 
@@ -19,8 +21,9 @@ def build(chp_csv_path=None, db_path=None):
     # build the index
 
     dir_ = Directory(db_path)
-    with open(chp_csv_path, 'rb') as csv_f:
+    with io.open(chp_csv_path, 'rb') as csv_f:
         dir_.load_chp_csv(csv_f)
+
 
 def build_cmd(chp_csv_path=None, db_path=None):
     '''Build a ZIP code index by the CSV from Chunghwa Post.
@@ -33,6 +36,7 @@ def build_cmd(chp_csv_path=None, db_path=None):
     sys.stdout.flush()
     build(chp_csv_path, db_path)
     print('Done.')
+
 
 if __name__ == '__main__':
 

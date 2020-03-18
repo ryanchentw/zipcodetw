@@ -199,10 +199,7 @@ class Rule(Address):
         return True
 
 import sqlite3
-try:
-    import unicodecsv as csv
-except ImportError:
-    import csv
+import unicodecsv as csv
 from functools import wraps
 
 class Directory(object):
@@ -232,7 +229,7 @@ class Directory(object):
     def create_tables(self):
 
         self.cur.execute('''
-            create table precise (
+            create table if not exists precise (
                 addr_str text,
                 rule_str text,
                 zipcode  text,
@@ -241,7 +238,7 @@ class Directory(object):
         ''')
 
         self.cur.execute('''
-            create table gradual (
+            create table if not exists gradual (
                 addr_str text primary key,
                 zipcode  text
             );
@@ -341,7 +338,7 @@ class Directory(object):
 
             # for py2 py3 compatibility
             try:
-                row = [val.decode('utf-8') for val in row]
+                row = [val for val in row]
             except AttributeError:
                 pass
 
